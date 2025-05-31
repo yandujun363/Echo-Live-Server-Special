@@ -704,7 +704,7 @@ function configSaveAll(effect = false, skipCheck = false, exportNow = false) {
 }
 
 function configOutput(setUnsave = false) {
-    $('#edit-config-output').val('const config = ' + JSON.stringify(settingsManager.config, null, 4));
+    $('#edit-config-output').val(JSON.stringify(settingsManager.config, null, 4));
     outputTabUnsavePoint(setUnsave);
 }
 
@@ -715,7 +715,7 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
             {
                 description: $t('file.picker.config'),
                 accept: {
-                    'text/javascript': ['.js', '.mjs']
+                    'application/json': ['.json']
                 }
             }
         ],
@@ -746,13 +746,46 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
     }
 }
 
-function configExport(fileName = 'config.js', saveAs = false) {
+/**
+ * 使用后端API保存配置文件
+ * @param {json} content 配置文件内容
+ * @param {string} fileName 文件名
+ * @param {string} url 后端API地址
+ * @param {string} configfileroot 配置文件根目录
+ */
+async function BackendSaveConfigFile(content, fileName = 'config.json', url = 'http://echo-live/api/save_config', configfileroot = '', saveAs = false) {
+    outputTabUnsavePoint(true)
+    $.ajax({
+        type: "post",
+        url: url,
+        data: {
+            "name" : fileName,
+            "root" : configfileroot,
+            "data" : content
+        },
+        success:(data) => {
+            sysNotice.sendT('notice.config_saved', {}, 'success', {
+                icon: 'material:content-save'
+            });
+            outputTabUnsavePoint(false)
+        },
+        error:(data) => {
+            sysNotice.sendT('notice.backend_config_saving_fail', {}, 'error', {
+                icon: 'material:content-save-alert'
+            });
+        }
+    })
+}
+
+function configExport(fileName = 'config.json', saveAs = false) {
     let content = $('#edit-config-output').val();
 
+    // 如果开启后端保存功能则使用后端API保存配置文件
+    if(config.advanced.settings.backend_api_saves == true) return BackendSaveConfigFile(content, fileName, config.advanced.settings.backend_api_url, config.advanced.settings.config_file_root, saveAs)
     // 如果支持 showSaveFilePicker 则使用，否则使用传统下载方式
     if (window.showSaveFilePicker != undefined) return saveConfigFile(content, fileName, saveAs);
 
-    let blob = new Blob([content], { type: 'text/javascript;charset=utf-8' });
+    let blob = new Blob([content], { type: 'application/json;charset=utf-8' });
 
     let downloadLink = document.createElement('a');
     downloadLink.download = fileName;
@@ -765,7 +798,7 @@ function configExport(fileName = 'config.js', saveAs = false) {
         downloadLink.click();
         document.body.removeChild(downloadLink);
     } else {
-        window.open('data:text/javascript;charset=utf-8,' + encodeURIComponent(content));
+        window.open('data:application/json;charset=utf-8,' + encodeURIComponent(content));
     }
 
     outputTabUnsavePoint(false);
@@ -979,7 +1012,6 @@ const configFilePickerOpts = {
         {
             description: $t('file.picker.config'),
             accept: {
-                'text/javascript': ['.js', '.mjs'],
                 'application/json': ['.json']
             },
         },
@@ -1343,11 +1375,11 @@ $(document).on('click', '#edit-btn-output', function() {
 });
 
 $(document).on('click', '#edit-btn-file-save-as', function() {
-    configExport('config.js', true);
+    configExport('config.json', true);
 });
 
 $(document).on('click', '#edit-btn-file-save', function() {
-    configExport('config.js');
+    configExport('config.json');
 });
 
 
@@ -1377,7 +1409,7 @@ $(document).keydown(function(e) {
         e.code === 'KeyS' && e.ctrlKey
     ) {
         configSaveAll(true);
-        configExport('config.js');
+        configExport('config.json');
     }
 });
 

@@ -1216,6 +1216,33 @@ const db_config_define = [
             min: -1
         }
     }, {
+        name: 'advanced.settings.backend_api_saves',
+        type: 'boolean',
+        default: false,
+        created: 11
+    }, {
+        name: 'advanced.settings.backend_api_url',
+        type: 'string',
+        default: 'http://echo-live/api/save_config',
+        created: 11,
+        conditions: [
+            {
+                name: 'advanced.settings.backend_api_saves',
+                value: true
+            }
+        ]
+    }, {
+        name: 'advanced.settings.config_file_root',
+        type: 'string',
+        default: 'Echo-Live',
+        created: 11,
+        conditions: [
+            {
+                name: 'advanced.settings.backend_api_saves',
+                value: true
+            }
+        ]
+    }, {
         name: 'advanced.performance',
         type: 'object',
         created: 10

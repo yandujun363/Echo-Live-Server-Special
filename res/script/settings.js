@@ -700,7 +700,7 @@ function configSaveAll(effect = false, skipCheck = false, exportNow = false) {
         bodyClassCache = $('html').attr('class') ?? '';
     }, 800)
 
-    if (exportNow) configExport('config.js');
+    if (exportNow) configExport('config.json');
 }
 
 function configOutput(setUnsave = false) {

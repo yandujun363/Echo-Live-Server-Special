@@ -753,6 +753,18 @@ const lang_zho_Hant_TW = {
                 speech_synthesis_voices_maximum: {
                     _title: "講述人語音資源列表最大顯示數量",
                     _description: "在某些作業系統中可能會列出大量專案從而影響渲染效能。<br>設為 -1 則不設上限。"
+                },
+                backend_api_saves: {
+                    _title: "使用後端API儲存設定檔",
+                    _description: "不確定用途時請勿隨意變更！！！<br>使用後端 API 儲存設定檔，以解決跨裝置無法儲存檔案的問題。"
+                },
+                backend_api_url: {
+                    _title: "後端 API 網址",
+                    _description: "後端 API 網址，請確保已正確設定，否則會導致儲存設定檔失敗。"
+                },
+                config_file_root: {
+                    _title: "儲存設定檔根目錄",
+                    _description: "設定檔儲存的根目錄，通常設定為 Echo-Live 的目錄。<br>例如：C:\\Echo-Live<br>反斜線 \"\\\" 會自動轉換，無需手動處理。"
                 }
             },
             performance: {
@@ -1510,6 +1522,7 @@ const lang_zho_Hant_TW = {
         commander_tips: "您已開啟命令控制檯，點選此處可查閱關於命令的幫助。如果您只是誤操作，請將游標置於控制檯中並按 <kbd>Esc</kbd> 鍵退出。",
         config_re_output: "已重新匯出配置檔案內容！",
         config_saved: "配置檔案已儲存！請注意重新整理所有頁面使新配置生效。",
+        backend_config_saving_fail: "使用後端API儲存設定檔失敗，請檢查API路徑或檢查後端。",
         config_saving: "儲存中...",
         config_saving_fail: "未授權寫入，配置檔案未儲存。",
         browser_zoom: "如果您不小心調整了縮放率不知道怎麼復原，請按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（數字鍵）",

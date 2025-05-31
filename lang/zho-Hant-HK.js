@@ -753,6 +753,18 @@ const lang_zho_Hant_HK = {
                 speech_synthesis_voices_maximum: {
                     _title: "講述人語音資源列表最大顯示數量",
                     _description: "在某些操作系統中可能會列出大量項目從而影響渲染性能。<br>設為 -1 則不設上限。"
+                },
+                backend_api_saves: {
+                    _title: "使用後端API保存配置文件",
+                    _description: "唔清楚係咩嘅情況下唔好亂改！！！<br>使用後端 API 保存配置文件，解決跨裝置無法保存文件嘅問題。"
+                },
+                backend_api_url: {
+                    _title: "後端 API 地址",
+                    _description: "後端 API 地址，請確保您已正確設定，否則會導致保存配置文件失敗。"
+                },
+                config_file_root: {
+                    _title: "保存配置文件根目錄",
+                    _description: "配置文件保存嘅根目錄，一般設定為 Echo-Live 嘅目錄。<br>例如：C:\\Echo-Live<br>\"\\\"會自動轉換，唔需要手動處理。"
                 }
             },
             performance: {
@@ -1510,6 +1522,7 @@ const lang_zho_Hant_HK = {
         commander_tips: "您已打開命令控制台，點擊此處可查閱關於命令的幫助。如果您只是誤操作，請將光標置於控制台中並按 <kbd>Esc</kbd> 鍵退出。",
         config_re_output: "已重新導出配置文件內容！",
         config_saved: "配置文件已保存！請注意刷新所有頁面使新配置生效。",
+        backend_config_saving_fail: "使用後端API儲存設定檔案失敗，請檢查API路徑或檢查後端。",
         config_saving: "保存中...",
         config_saving_fail: "未授權寫入，配置文件未保存。",
         browser_zoom: "如果您不小心調整了縮放率不知道怎麼復原，請按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（數字鍵）",

@@ -755,14 +755,18 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
  */
 async function BackendSaveConfigFile(content, fileName = 'config.json', url = 'http://echo-live/api/save_config', configfileroot = '', saveAs = false) {
     outputTabUnsavePoint(true)
+    const data = {
+        "name" : fileName,
+        "root" : configfileroot,
+        "data" : JSON.parse(content) //别问为什么这么写，问就是后端的问题。
+    }
     $.ajax({
         type: "post",
         url: url,
-        data: {
-            "name" : fileName,
-            "root" : configfileroot,
-            "data" : content
+        headers: {
+            'Content-Type': 'application/json'
         },
+        data: JSON.stringify(data),
         success:(data) => {
             sysNotice.sendT('notice.config_saved', {}, 'success', {
                 icon: 'material:content-save'

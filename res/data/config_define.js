@@ -1223,7 +1223,7 @@ const db_config_define = [
     }, {
         name: 'advanced.settings.backend_api_url',
         type: 'string',
-        default: 'http://echo-live/api/save_config',
+        default: 'http://127.0.0.1:3000/api/save_config',
         created: 11,
         conditions: [
             {

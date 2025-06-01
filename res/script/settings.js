@@ -753,7 +753,7 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
  * @param {string} url 后端API地址
  * @param {string} configfileroot 配置文件根目录
  */
-async function BackendSaveConfigFile(content, fileName = 'config.json', url = 'http://echo-live/api/save_config', configfileroot = '', saveAs = false) {
+async function BackendSaveConfigFile(content, fileName = 'config.json', url = 'http://127.0.0.1:3000/api/save_config', configfileroot = '', saveAs = false) {
     outputTabUnsavePoint(true)
     const data = {
         "name" : fileName,

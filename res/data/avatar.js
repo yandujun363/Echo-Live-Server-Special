@@ -22,7 +22,7 @@ echoLiveSystem.registry.loadRegistry('avatar', e => {
                     text: 'Echo-Live 虚拟形象 “Echo 追音” 授权协议',
                     translate: 'echo_otone.license'
                 },
-                url: 'docs/License-Echo-Otone.txt'
+                url: 'docs/License-Echo-Otone.html'
             }
         },
         path: {

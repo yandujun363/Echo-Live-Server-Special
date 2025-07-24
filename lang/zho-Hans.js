@@ -761,6 +761,18 @@ const lang_zho_Hans = {
                 speech_synthesis_voices_maximum: {
                     _title: "讲述人语音资源列表最大显示数量",
                     _description: "在某些操作系统中可能会列出大量项目从而影响渲染性能。<br>设为 -1 则不设上限。"
+                },
+                backend_api_saves: {
+                    _title: "使用后端API保存配置文件",
+                    _description: "不知道是什么的情况下不要动它！！！<br>使用后端 API 保存配置文件，以解决跨设备无法保存文件的问题。"
+                },
+                backend_api_url: {
+                    _title: "后端 API 地址",
+                    _description: "后端 API 地址，请确保您已正确配置，否则会导致保存配置文件失败。"
+                },
+                config_file_root: {
+                    _title: "保存配置文件根目录",
+                    _description: "配置文件保存的根目录，一般设置为Echo-Live的目录。<br>如:C:\\Echo-Live<br>\"\\\"会自动转义，无需手动转义。"
                 }
             },
             performance: {
@@ -1550,6 +1562,7 @@ const lang_zho_Hans = {
         config_saved: "配置文件已保存！请注意刷新所有页面使新配置生效。",
         config_saving: "保存中...",
         config_saving_fail: "未授权写入，配置文件未保存。",
+        backend_config_saving_fail: "使用后端API保存配置文件失败，请检查API路径或者检查后端。",
         browser_zoom: "如果您不小心调整了缩放率不知道怎么复原，请按：<kbd>Ctrl</kbd> + <kbd>0</kbd>（数字键）",
         browser_zoom_reset: {
             title: "漂亮的抢救！",

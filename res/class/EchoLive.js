@@ -416,10 +416,12 @@ class EchoLive {
 
         this.setThemeStyleUrl(theme.style);
 
-        if (this.themeScriptEnable && typeof theme.script == 'object') {
+        if (this.themeScriptEnable && typeof theme.script === 'object') {
+            const scriptType = theme.script_type || 'text/javascript';
             theme.script.forEach(e => {
-                let s   = document.createElement("script");
-                s.src   = e;
+                let s = document.createElement("script");
+                s.src = e;
+                s.type = scriptType;  // 应用脚本类型
                 s.class = 'echo-live-theme-script';
                 document.head.appendChild(s);
             });

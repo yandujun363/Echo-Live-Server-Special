@@ -359,7 +359,7 @@ const lang_zho_Hant_TW = {
                 _description: "列印每個字元時所使用的動畫效果",
                 name: {
                     _title: "動效名稱",
-                    _description: "可用的動效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>說明文件</a>。"
+                    _description: "可用的動效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>說明文件</a>。<br>請注意：訊息格式中的一些高階動效可能會覆蓋字元列印動效。如果您需要使用這些高階動效，建議您關閉字元列印動效。"
                 },
                 duration: {
                     _title: "動效用時",
@@ -543,7 +543,7 @@ const lang_zho_Hant_TW = {
                 _description: "拾色器相關配置",
                 palette: {
                     _title: "啟用的色板",
-                    _description: "拾色器中有多種色板可供挑選。<br>預製的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文字框中輸入色板名稱，一&#65279;行一&#65279;個。",
+                    _description: "拾色器中有多種色板可供挑選。<br>若要挑選啟用的色板或調整排序，請反選 “全部啟用”，並在下方文字框中輸入色板名稱，一&#65279;行一&#65279;個。",
                     all_selected: "全部啟用"
                 },
                 contrast_enable: {
@@ -629,15 +629,15 @@ const lang_zho_Hant_TW = {
                 _description: "設定預設所使用的形象及其引數",
                 name: {
                     _title: "形象名稱",
-                    _description: "可用的形象名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                    _description: "Echo-Live 內建了“Echo 追音”作為預設形象。"
                 },
                 action: {
                     _title: "動作名稱",
-                    _description: "預設所使用的動作名稱，留空則使用預設值。<br>不同的形象會有不同的動作可選，請根據您選擇的形象來選擇動作。<br>可用的動作名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                    _description: "預設所使用的動作名稱，留空則使用預設值。<br>不同的形象會有不同的動作可選，請根據您選擇的形象來選擇動作。"
                 },
                 scene: {
                     _title: "鏡頭名稱",
-                    _description: "預設所使用的鏡頭名稱，留空則使用預設值。<br>不同的形象會有不同的鏡頭可選，請根據您選擇的形象來選擇鏡頭。<br>可用的鏡頭名稱請見<a href='#' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                    _description: "預設所使用的鏡頭名稱，留空則使用預設值。<br>不同的形象會有不同的鏡頭可選，請根據您選擇的形象來選擇鏡頭。"
                 }
             },
             avatar_switch_effect: {
@@ -645,7 +645,7 @@ const lang_zho_Hant_TW = {
                 _description: "切換形象或動作時預設所使用的動畫效果",
                 name: {
                     _title: "動效名稱",
-                    _description: "可用的動效名稱請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>幫助文件（這裡的連結記得改）</a>。"
+                    _description: "切換形象或動作時預設所使用的動畫效果名稱。"
                 },
                 duration: {
                     _title: "動效用時",
@@ -725,6 +725,14 @@ const lang_zho_Hant_TW = {
                 allow_send_duplicate_message: {
                     _title: "允許傳送重複訊息",
                     _description: "對話方塊收到重複訊息時會再次列印而非忽略，這將會失去防抖機制。"
+                },
+                websocket_heartbeat_backoff_scale: {
+                    _title: "WebSocket 心跳包併發退避比率",
+                    _description: "為了減輕 WebSocket 伺服器同時連線多個客戶端時的心跳包併發壓力，心跳包會以 UUID 為種子隨機延遲 0 ~ 4095 毫秒傳送。<br>調整比率可改變延遲長度。設為 0 可禁用併發退避。<br>預設的隨機範圍已足以應對常規使用場景，除非您試圖組建一個大型網路。"
+                },
+                websocket_heartbeat_duration: {
+                    _title: "WebSocket 心跳包間隔",
+                    _description: "每一個 WebSocket 心跳包之間的間隔。併發退避不會影響間隔，只會影響偏移量。<br>設為 0 可禁用心跳包。"
                 }
             },
             editor: {
@@ -1018,6 +1026,7 @@ const lang_zho_Hant_TW = {
                 index: "對比度測試面板",
                 background_color: "背景色",
                 foreground_color: "前景色",
+                not_applicable: "不適用",
                 result: {
                     contrast: "對比度參考閾值",
                     wcag_aa: "WCAG AA",
@@ -1123,6 +1132,35 @@ const lang_zho_Hant_TW = {
                         red: "Dust Red / 薄暮",
                         volcano: "Volcano / 火山",
                         yellow: "Sunrise Yellow / 日出"
+                    }
+                },
+                custom_class: {
+                    title: "高階樣式",
+                    style: {
+                        gradient_aqua_splash: "海洋巨星",
+                        gradient_perfect_blue: "宇宙之眼",
+                        gradient_dusty_grass: "固沙草原",
+                        gradient_fly_high: "掙脫引力",
+                        gradient_heavy_rain: "傾盆大雨",
+                        gradient_juicy_peach: "多汁蜜桃",
+                        gradient_mountain_rock: "築山之巖",
+                        gradient_night_fade: "暮色銀河",
+                        gradient_premium_dark: "高階深灰",
+                        gradient_red_salvation: "碎空遠星",
+                        gradient_salt_mountain: "地中之鹽",
+                        gradient_spring_warmth: "暖陽春日",
+                        gradient_sunny_morning: "明媚早晨",
+                        gradient_winter_neva: "冰天雪地",
+                        jitter: "抖動",
+                        rainbow: "彩虹",
+                        roll_down: "旋轉倒置",
+                        wave_1: "微波起伏",
+                        wave_2: "波濤洶湧",
+                        wave_3: "驚濤駭浪"
+                    },
+                    group: {
+                        colorful: "多彩漸變",
+                        funny: "搞笑搞怪"
                     }
                 },
                 material: {
@@ -1615,6 +1653,7 @@ const lang_zho_Hant_TW = {
         msgbox: {
             accessibility: "Echo-Live 所有後臺頁面均支援鍵盤訪問。<br>更多有關無障礙使用的説明請見<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>說明文件</a>。",
             advanced_settings: "不要隨意更改這裡的配置，除非您知道您在做什麼。",
+            character_settings: "形象播放器仍是一項實驗性功能，可能存在較多問題，未來有可能會發生重大更改，請勿過度依賴。",
             echo: {
                 title: "關於 Echo",
                 description: "Echo 是 Echo-Live 的核心，提供了文字滾動輸出功能。<br>它是一個工具庫，任何人都可以使用 Echo 建立自己的文字展示專案。<br>如果您有興趣瞭解 Echo，請見其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 倉庫</a>。"

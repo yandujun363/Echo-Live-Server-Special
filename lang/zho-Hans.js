@@ -359,7 +359,7 @@ const lang_zho_Hans = {
                 _description: "打印每个字符时所使用的动画效果",
                 name: {
                     _title: "动效名称",
-                    _description: "可用的动效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档</a>。"
+                    _description: "可用的动效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档</a>。<br>请注意：消息格式中的一些高级动效可能会覆盖字符打印动效。如果您需要使用这些高级动效，建议您关闭字符打印动效。"
                 },
                 duration: {
                     _title: "动效用时",
@@ -543,7 +543,7 @@ const lang_zho_Hans = {
                 _description: "拾色器相关配置",
                 palette: {
                     _title: "启用的色板",
-                    _description: "拾色器中有多种色板可供挑选。<br>预制的色板有 material、tailwindcss、ant_design 和 minecraft。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一&#65279;行一&#65279;个。",
+                    _description: "拾色器中有多种色板可供挑选。<br>若要挑选启用的色板或调整排序，请反选 “全部启用”，并在下方文本框中输入色板名称，一&#65279;行一&#65279;个。",
                     all_selected: "全部启用"
                 },
                 contrast_enable: {
@@ -629,15 +629,15 @@ const lang_zho_Hans = {
                 _description: "设置默认所使用的形象及其参数",
                 name: {
                     _title: "形象名称",
-                    _description: "可用的形象名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "Echo-Live 内置了“Echo 追音”作为默认形象。"
                 },
                 action: {
                     _title: "动作名称",
-                    _description: "默认所使用的动作名称，留空则使用默认值。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。<br>可用的动作名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "默认所使用的动作名称，留空则使用默认值。<br>不同的形象会有不同的动作可选，请根据您选择的形象来选择动作。"
                 },
                 scene: {
                     _title: "镜头名称",
-                    _description: "默认所使用的镜头名称，留空则使用默认值。<br>不同的形象会有不同的镜头可选，请根据您选择的形象来选择镜头。<br>可用的镜头名称请见<a href='#' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "默认所使用的镜头名称，留空则使用默认值。<br>不同的形象会有不同的镜头可选，请根据您选择的形象来选择镜头。"
                 }
             },
             avatar_switch_effect: {
@@ -645,7 +645,7 @@ const lang_zho_Hans = {
                 _description: "切换形象或动作时默认所使用的动画效果",
                 name: {
                     _title: "动效名称",
-                    _description: "可用的动效名称请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/custom/char-effect/#list' target='_blank'>帮助文档（这里的链接记得改）</a>。"
+                    _description: "切换形象或动作时默认所使用的动画效果名称。"
                 },
                 duration: {
                     _title: "动效用时",
@@ -725,6 +725,14 @@ const lang_zho_Hans = {
                 allow_send_duplicate_message: {
                     _title: "允许发送重复消息",
                     _description: "对话框收到重复消息时会再次打印而非忽略，这将会失去防抖机制。"
+                },
+                websocket_heartbeat_backoff_scale: {
+                    _title: "WebSocket 心跳包并发退避比率",
+                    _description: "为了减轻 WebSocket 服务器同时连接多个客户端时的心跳包并发压力，心跳包会以 UUID 为种子随机延迟 0 ~ 4095 毫秒发送。<br>调整比率可改变延迟长度。设为 0 可禁用并发退避。<br>默认的随机范围已足以应对常规使用场景，除非您试图组建一个大型网络。"
+                },
+                websocket_heartbeat_duration: {
+                    _title: "WebSocket 心跳包间隔",
+                    _description: "每一个 WebSocket 心跳包之间的间隔。并发退避不会影响间隔，只会影响偏移量。<br>设为 0 可禁用心跳包。"
                 }
             },
             editor: {
@@ -1018,6 +1026,7 @@ const lang_zho_Hans = {
                 index: "对比度测试面板",
                 background_color: "背景色",
                 foreground_color: "前景色",
+                not_applicable: "不适用",
                 result: {
                     contrast: "对比度参考阈值",
                     wcag_aa: "WCAG AA",
@@ -1123,6 +1132,35 @@ const lang_zho_Hans = {
                         red: "Dust Red / 薄暮",
                         volcano: "Volcano / 火山",
                         yellow: "Sunrise Yellow / 日出"
+                    }
+                },
+                custom_class: {
+                    title: "高级样式",
+                    style: {
+                        gradient_aqua_splash: "海洋巨星",
+                        gradient_perfect_blue: "宇宙之眼",
+                        gradient_dusty_grass: "固沙草原",
+                        gradient_fly_high: "挣脱引力",
+                        gradient_heavy_rain: "倾盆大雨",
+                        gradient_juicy_peach: "多汁蜜桃",
+                        gradient_mountain_rock: "筑山之岩",
+                        gradient_night_fade: "暮色银河",
+                        gradient_premium_dark: "高级深灰",
+                        gradient_red_salvation: "碎空远星",
+                        gradient_salt_mountain: "地中之盐",
+                        gradient_spring_warmth: "暖阳春日",
+                        gradient_sunny_morning: "明媚早晨",
+                        gradient_winter_neva: "冰天雪地",
+                        jitter: "抖动",
+                        rainbow: "彩虹",
+                        roll_down: "旋转倒置",
+                        wave_1: "微波起伏",
+                        wave_2: "波涛汹涌",
+                        wave_3: "惊涛骇浪"
+                    },
+                    group: {
+                        colorful: "多彩渐变",
+                        funny: "搞笑搞怪"
                     }
                 },
                 material: {
@@ -1615,6 +1653,7 @@ const lang_zho_Hans = {
         msgbox: {
             accessibility: "Echo-Live 所有后台页面均支持键盘访问。<br>更多有关无障碍使用的帮助请见<a href='https://sheep-realms.github.io/Echo-Live-Doc/main/accessible/' target='_blank'>帮助文档</a>。",
             advanced_settings: "不要随意更改这里的配置，除非您知道您在做什么。",
+            character_settings: "形象播放器仍是一项实验性功能，可能存在较多问题，未来有可能会发生重大更改，请勿过度依赖。",
             echo: {
                 title: "关于 Echo",
                 description: "Echo 是 Echo-Live 的内核，提供了文本滚动输出功能。<br>它是一个工具库，任何人都可以使用 Echo 创建自己的文本展示项目。<br>如果您有兴趣了解 Echo，请见其 <a href='https://github.com/sheep-realms/Echo' target='_blank'>GitHub 仓库</a>。"

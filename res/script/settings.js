@@ -47,7 +47,7 @@ observer.observe({ type: "navigation", buffered: true });
 
 try {
     speechSynthesis.getVoices();
-} catch (error) {}
+} catch (_) {}
 
 let easterEggDrop = false;
 let logoClick = 0;
@@ -229,7 +229,7 @@ const configDataList = [
             try {
                 voices = speechSynthesis.getVoices();
                 voices = voices.filter(e => e.localService == true);
-            } catch (error) {}
+            } catch (_) {}
             for (let i = 0; i < voices.length; i++) {
                 if (
                     i >= config.advanced.settings.speech_synthesis_voices_maximum &&
@@ -431,7 +431,7 @@ function getSettingsItemValue(name, isDefault = false) {
                     if (isDefault) {
                         try {
                             value = decodeURIComponent($sel.find('.settings-value-list').eq(0).data('default')).split('\n');
-                        } catch (error) {
+                        } catch (_) {
                             console.log(value);
                             debugger
                         }
@@ -738,7 +738,7 @@ async function saveConfigFile(content, fileName = 'config.js', saveAs = false) {
         sysNotice.sendT('notice.config_saved', {}, 'success', {
             icon: 'material:content-save'
         });
-    } catch (error) {
+    } catch (_) {
         clearTimeout(timerSaving);
         sysNotice.sendT('notice.config_saving_fail', {}, 'error', {
             icon: 'material:content-save-alert'
@@ -917,6 +917,11 @@ $(document).ready(function() {
                 <div class="example-2">${ $t('config.accessibility.font_size.example_2') }</div>
             </div>`
         );
+
+        $('.settings-page[data-pageid="character"]').prepend(SettingsPanel.msgBox(
+            '',
+            $t('settings.msgbox.character_settings')
+        ));
         $('.settings-page[data-pageid="advanced"]').prepend(SettingsPanel.msgBoxWarn(
             '',
             $t('settings.msgbox.advanced_settings')
@@ -1095,7 +1100,7 @@ function checkConfigFile(fileList) {
         configFileBuffer = content;
         try {
             configFileFiltered = /\{.*\}/gms.exec(configFileBuffer)[0];
-        } catch (error) {
+        } catch (_) {
             showFileChecker(dropFile, 'error');
             showFileCheckDialogError('no_json');
             return;
@@ -1104,7 +1109,7 @@ function checkConfigFile(fileList) {
         try {
             dropData = JSON.parse(configFileFiltered);
             importConfigCheck();
-        } catch (error) {
+        } catch (_) {
             showFileChecker(dropFile, 'exception');
             showFileCheckDialog(SettingsFileChecker.dialogJSONParseFail());
             return;
@@ -1191,7 +1196,7 @@ $(document).on('click', '#btn-file-check-dialog-unsafe-load', function() {
     try {
         eval('dropData = ' + configFileFiltered);
         importConfigCheck();
-    } catch (error) {
+    } catch (_) {
         showFileChecker(dropFile, 'error');
         showFileCheckDialogError('unsafe_load_fail');
     }

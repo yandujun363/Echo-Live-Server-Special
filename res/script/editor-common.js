@@ -379,8 +379,12 @@ $(document).on('click', '#popups-palette-accessibility-help-btn', function() {
 });
 
 // 拾色器色块鼠标进入
-$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box', function() {
+$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box:not(.color-box-custom-class)', function() {
     paletteColorContrastCheck($(this).data('value'));
+});
+
+$(document).on('mouseenter', '#popups-palette.color-contrast-enable .color-box-custom-class', function() {
+    paletteColorContrastUnset();
 });
 
 // 拾色器快捷键
@@ -497,8 +501,8 @@ $(document).on('keydown', '#popups-image', function(e) {
 });
 
 function paletteColorContrastCheck(value) {
-    let bg = config.editor.color_picker.contrast_background_color;
-    let threshold = config.editor.color_picker.contrast_threshold;
+    const bg = config.editor.color_picker.contrast_background_color;
+    const threshold = config.editor.color_picker.contrast_threshold;
 
     $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', bg);
     $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--fg-color', value);
@@ -524,4 +528,18 @@ function paletteColorContrastCheck(value) {
     }
 
     $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text(r.contrastRatio.toFixed(1));
+}
+
+function paletteColorContrastUnset() {
+    const bg = config.editor.color_picker.contrast_background_color;
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--bg-color', bg);
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard').css('--fg-color', '#000000');
+    $('#popups-palette .popups-palette-color-contrast .diff-dashboard .diff-fg-text').text(
+        $t('editor.palette.diff_dashboard.not_applicable')
+    );
+    $('#popups-palette .popups-palette-color-contrast .diff-result-box').removeClass('state-ok state-fail');
+    $(
+        '#popups-palette .popups-palette-color-contrast .diff-result-aa, #popups-palette .popups-palette-color-contrast .diff-result-aaa, #popups-palette .popups-palette-color-contrast .diff-result-contrast'
+    ).addClass('state-fail');
+    $('#popups-palette .popups-palette-color-contrast .diff-result-contrast .title').text('N/A');
 }

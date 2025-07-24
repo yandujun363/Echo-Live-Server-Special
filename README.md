@@ -16,6 +16,8 @@
 
 您还可以加入我们的 [Discord 服务器](https://discord.gg/XuPQBw6tHC) 与我们交流。
 
+**注：本fork仓库为服务器特供版，需要服务器环境运行，原始仓库请见 [sheep-realms/Echo-Live](https://github.com/sheep-realms/Echo-Live)**
+
 ## 帮助文档快速参考
 [使用指南](https://sheep-realms.github.io/Echo-Live-Doc/main/how-to-use/) · 
 [主题样式](https://sheep-realms.github.io/Echo-Live-Doc/custom/theme/) · 

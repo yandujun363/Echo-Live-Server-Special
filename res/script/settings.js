@@ -50,6 +50,7 @@ try {
 } catch (_) {}
 
 let easterEggDrop = false;
+let easterEggDropFileText = false;
 let logoClick = 0;
 
 let timerSaving = 0;
@@ -61,7 +62,7 @@ updater.localStorageManager = localStorageManager;
 
 let uniWindow = new UniverseWindow();
 
-let elcConfig = config;
+let elcConfig = JSON.parse(JSON.stringify(config));
 elcConfig.__demo_mode = true;
 let echoLiveCharacter = new EchoLiveCharacter(elcConfig);
 
@@ -166,6 +167,18 @@ const configDataList = [
             'global.theme',
             'echolive.style.live_theme',
             'history.style.history_theme'
+        ]
+    }, {
+        data: [
+            {
+                value: '',
+                title: $t('ui.empty')
+            }
+        ],
+        key: [
+            'global.theme_variant',
+            'echolive.style.live_theme_variant',
+            'history.style.history_theme_variant'
         ]
     }, {
         data: [
@@ -560,6 +573,26 @@ function checkConfigCondition(name = '') {
             $(`.settings-item[data-id="${ element.name }"]`).addClass('settings-item-condition-test-fail');
         }
     });
+}
+
+function getThemeVariantDataList(themeName) {
+    const theme = echoLiveSystem.registry.getRegistryValue('live_theme', themeName);
+    if (theme === undefined) return [];
+
+    let dataList = [
+        {
+            value: '',
+            title: $t('ui.default')
+        }
+    ];
+    theme.variant.forEach(e => {
+        dataList.push({
+            title: e.title,
+            value: e.name
+        });
+    });
+
+    return dataList;
 }
 
 
@@ -972,6 +1005,48 @@ $(document).ready(function() {
             );
         });
 
+        // 载入主题变体
+        const themeVariantDataList = getThemeVariantDataList(config.global.theme);
+        setSettingsSelect('global.theme_variant', themeVariantDataList);
+        setSettingsSelect(
+            'echolive.style.live_theme_variant',
+            config.echolive.style.live_theme_variant !== ''
+                ? getThemeVariantDataList(config.echolive.style.live_theme)
+                : themeVariantDataList
+        );
+        setSettingsSelect(
+            'history.style.history_theme_variant',
+            config.history.style.history_theme_variant !== ''
+                ? getThemeVariantDataList(config.history.style.history_theme)
+                : themeVariantDataList
+        );
+
+        $(document).on('change', '.settings-item[data-id="global.theme"] .settings-value', function() {
+            const globalTheme = getSettingsItemValue('global.theme');
+            const liveTheme = getSettingsItemValue('echolive.style.live_theme');
+            const historyTheme = getSettingsItemValue('history.style.history_theme');
+            const dataList = getThemeVariantDataList(globalTheme);
+            setSettingsSelect('global.theme_variant', dataList);
+            if (liveTheme === '') setSettingsSelect('echolive.style.live_theme_variant', dataList);
+            if (historyTheme === '') setSettingsSelect('history.style.history_theme_variant', dataList);
+        });
+
+        $(document).on('change', '.settings-item[data-id="echolive.style.live_theme"] .settings-value', function() {
+            const theme = getSettingsItemValue('echolive.style.live_theme');
+            let globalTheme = '';
+            if (theme === '') globalTheme = getSettingsItemValue('global.theme');
+            const dataList = getThemeVariantDataList(theme || globalTheme);
+            setSettingsSelect('echolive.style.live_theme_variant', dataList);
+        });
+
+        $(document).on('change', '.settings-item[data-id="history.style.history_theme"] .settings-value', function() {
+            const theme = getSettingsItemValue('history.style.history_theme');
+            let globalTheme = '';
+            if (theme === '') globalTheme = getSettingsItemValue('global.theme');
+            const dataList = getThemeVariantDataList(theme || globalTheme);
+            setSettingsSelect('history.style.history_theme_variant', dataList);
+        });
+
         $('.settings-item[data-id="character.avatar.name"] .settings-value').trigger('change');
 
         let ua = navigator.userAgent.toLowerCase();
@@ -1071,6 +1146,11 @@ async function filePicker() {
 }
 
 function checkConfigFile(fileList) {
+    if (fileList.length === 0) {
+        showFileCheckDialogError('not_file');
+        return;
+    }
+
     if (fileList.length !== 1) {
         showFileCheckDialogError('many_file');
         return;
@@ -1186,6 +1266,16 @@ $(document).on('drop', '#settings-file-input-box', function(e) {
     clearTimeout(inFileDorpTimer);
     $('#settings-file-input-box .file-drop-box-message').text($t('file.dropper.please_drop_file'));
     $('#settings-file-input-box').removeClass('dragover');
+
+    const isText = e.originalEvent.dataTransfer.types.indexOf('text/plain');
+    if (!easterEggDropFileText && isText !== -1) {
+        e.originalEvent.dataTransfer.items[isText].getAsString((str) => {
+            if (str == $t('file.dropper.drop_file_but_file_text_target')) {
+                sysNotice.sendT('file.dropper.drop_file_but_file_text', {}, 'trophy');
+                easterEggDropFileText = true;
+            }
+        });
+    }
 
     const fileList = e.originalEvent.dataTransfer.files;
 

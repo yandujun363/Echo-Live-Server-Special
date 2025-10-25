@@ -269,6 +269,10 @@ const lang_zho_Hans = {
                 diplay_controller: {
                     _title: "显示控制栏",
                     _description: "显示对话框底部的 “SAVE”、“LOAD” 等模拟按钮。"
+                },
+                controller: {
+                    _title: "控制栏内容",
+                    _description: "控制栏中的模拟按钮，可以由文字和图标组成。"
                 }
             },
             broadcast: {
@@ -1587,6 +1591,72 @@ const lang_zho_Hans = {
                 yes: "需要",
                 skip: "下次再说",
                 no: "不需要"
+            }
+        }
+    },
+    live_controller: {
+        all_icon: {
+            title: "全量图标"
+        },
+        classic: {
+            title: "旧版纯文本"
+        },
+        draw: {
+            title: "画图"
+        },
+        neo_icon: {
+            title: "图标"
+        },
+        taskbar: {
+            title: "任务栏"
+        },
+        word: {
+            title: "Word 文档",
+            item: {
+                cite: "引用",
+                design: "设计",
+                email: "邮件",
+                file: "文件",
+                graphics: "绘图",
+                help: "帮助",
+                layout: "布局",
+                insert: "插入",
+                review: "审阅",
+                start: "开始",
+                view: "视图"
+            }
+        }
+    },
+    live_theme: {
+        bubble: {
+            title: "气泡",
+            variant: {
+                azure: "蔚蓝",
+                pink: "粉红"
+            }
+        },
+        glass: {
+            title: "玻璃",
+            variant: {
+                coffee: "咖啡棕",
+                blue: "湖泊蓝",
+                pink: "蜜桃粉",
+                purple: "水晶紫",
+                wine_red: "葡萄红"
+            }
+        },
+        vanilla: {
+            title: "原版",
+            variant: {
+                dark: "深色",
+                dark_glass: "深色半透明",
+                light_glass: "半透明"
+            }
+        },
+        void: {
+            title: "虚空",
+            variant: {
+                white: "白色文本"
             }
         }
     },

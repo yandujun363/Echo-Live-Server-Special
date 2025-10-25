@@ -64,6 +64,8 @@ let voices = [];
 let voiceIndex = -1;
 let utterance;
 
+let emojiHako;
+
 if (config.echolive.speech_synthesis.enable) {
     try {
         voices = speechSynthesis.getVoices();
@@ -94,6 +96,13 @@ function setUsername(name = '') {
 
 
 
+
+$(document).ready(function() {
+    translator.ready(() => {
+        emojiHako = new EmojiHako();
+        if (config.echolive.layout.diplay_controller) echolive.setController(config.echolive.layout.controller || '');
+    })
+});
 
 echo.on('next', function(msg) {
     messageActions = {
@@ -344,6 +353,24 @@ echolive.on('displayHidden', function(callback) {
 
 echolive.on('displayHiddenNow', function() {
     $('#echo-live, body').addClass('display-hidden');
+});
+
+echolive.on('controllerLoad', function(controller) {
+    const $sel = $('#echo-live .controller');
+    $sel.html('');
+    controller.content.forEach(e => {
+        if (typeof e !== 'object') {
+            $sel.append(`<span>${e}</span>`);
+        } else if (e?.type === 'text') {
+            $sel.append(`<span>${ $tc( e.value, { before: 'live_controller.' + controller.meta.name + '.item.' } ) }</span>`);
+        } else if (e?.type === 'html') {
+            $sel.append(e.value);
+        } else if (e?.type === 'icon') {
+            $sel.append(Icon.getIcon(e.value));
+        } else if (e?.type === 'flex') {
+            $sel.append(`<span class="flex-space"></span>`);
+        }
+    });
 });
 
 $(document).on('click', function() {

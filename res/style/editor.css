@@ -50,14 +50,16 @@
 
 @media (prefers-color-scheme: dark) {
     :root:not(.prefers-color-scheme-light) {
+        color-scheme: dark;
+
         --text-primary: #BEC1C6;
         --text-regular: #9C9EA6;
         --text-secondary: #747780;
         --text-placeholder: #5B5E66;
-    
+
         --border-color: #666666;
         --box-shadow: 0 2px 16px rgba(128, 128, 128, 0.35);
-    
+
         --page-bgcolor: #1E2129;
         --page-bgcolor-glass: rgba(30, 33, 41, 0.85);
         --input-bgcolor: #333740;
@@ -84,6 +86,8 @@
 }
 
 .prefers-color-scheme-dark {
+    color-scheme: dark;
+
     --text-primary: #BEC1C6;
     --text-regular: #9C9EA6;
     --text-secondary: #747780;
@@ -300,15 +304,20 @@ input.code {
 }
 
 .tabpage-panel-title {
-    font-size: 0;
+    font-size: 1px;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
 }
 
 .echo-editor-form label,
+.echo-editor-form .fh-label,
 .echo-editor-form textarea {
     display: block;
 }
 
-.echo-editor-form label {
+.echo-editor-form label,
+.echo-editor-form .fh-label {
     padding: 0.25em 0;
     font-size: var(--font-size-middle);
     color: var(--text-regular);
@@ -490,12 +499,14 @@ input.code {
     align-items: flex-start;
 }
 
-.echo-editor-form-row>label {
+.echo-editor-form-row>label,
+.echo-editor-form-row>.fh-label {
     width: 200px;
 }
 
 @media screen and (max-width: 760px) {
-    .echo-editor-form-row>label {
+    .echo-editor-form-row>label,
+    .echo-editor-form-row>.fh-label {
         width: 150px;
     }
 }
@@ -1880,7 +1891,7 @@ select:focus {
     overflow-x: hidden;
     overflow-y: auto;
     box-sizing: border-box;
-    scroll-snap-type: y mandatory;
+    /* scroll-snap-type: y mandatory; */
     z-index: 2000;
 }
 

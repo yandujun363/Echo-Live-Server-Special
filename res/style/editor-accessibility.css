@@ -206,6 +206,7 @@
 .accessibility-high-contrast textarea,
 .accessibility-high-contrast input[type=number],
 .accessibility-high-contrast input[type=text],
+.accessibility-high-contrast input[type=search],
 .accessibility-high-contrast #editor-log,
 .accessibility-high-contrast select,
 .accessibility-high-contrast .echo-live-client-state-block {
@@ -219,6 +220,7 @@
 
 .accessibility-high-contrast input[type=number]:focus,
 .accessibility-high-contrast input[type=text]:focus,
+.accessibility-high-contrast input[type=search]:focus,
 .accessibility-high-contrast textarea:focus,
 .accessibility-high-contrast select:focus,
 .accessibility-high-contrast button:focus,
@@ -264,6 +266,57 @@
 .accessibility-high-contrast .echo-live-client-state-block.client-target-none.client-targeted .client-info .client-icon-left {
     opacity: 1;
     transform: rotate(90deg);
+}
+
+.accessibility-high-contrast .settings-group-title .icon {
+    opacity: 1;
+}
+
+.settings-item .accessibility-high-contrast-show {
+    display: none;
+    color: var(--color-danger-dark);
+}
+
+.accessibility-high-contrast .settings-item:has(.settings-switch.state-off) .accessibility-high-contrast-show {
+    display: inline;
+}
+
+.accessibility-high-contrast .settings-item:has(.settings-switch.state-off) .accessibility-high-contrast-hide {
+    display: none;
+}
+
+.accessibility-high-contrast input[type=range]:focus::-webkit-slider-thumb,
+.accessibility-high-contrast input[type=range]:focus::-webkit-slider-runnable-track  {
+    outline: var(--accessibility-outline);
+}
+
+.accessibility-high-contrast input[type=range]:focus::-moz-range-thumb,
+.accessibility-high-contrast input[type=range]:focus::-moz-range-track {
+    outline: var(--accessibility-outline);
+}
+
+@media (forced-colors: active) {
+    input[type=range] {
+        --fh-color: var(--border-color);
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        border: var(--border-color) 2px solid;
+        margin-top: calc((var(--font-size-base) - 1px) * -1);
+    }
+
+    input[type=range]::-moz-range-thumb {
+        border: var(--border-color) 2px solid;
+        margin-top: calc((var(--font-size-base) - 1px) * -1);
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        border: var(--border-color) 1px solid;
+    }
+
+    input[type=range]::-moz-range-track {
+        border: var(--border-color) 1px solid;
+    }
 }
 
 

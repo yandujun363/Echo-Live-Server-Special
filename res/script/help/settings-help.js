@@ -22,10 +22,15 @@ $(document).ready(function() {
                     break;
             
                 default:
-                    if (!localStorageManager.getTutorialFlag('settings_overview')) {
-                        tutorialConfirmWindow.create('settings_overview', driverShowOverview);
-                    }
                     break;
+            }
+        } else {
+            if (!localStorageManager.getTutorialFlag('settings_overview')) {
+                tutorialConfirmWindow.create('settings_overview', driverShowOverview, r => {
+                    if (r === 'no') updateCheck();
+                });
+            } else {
+                updateCheck();
             }
         }
     });
@@ -143,10 +148,28 @@ function driverShowOverview() {
                     $('.settings-item[data-id="global.color_scheme"]').removeClass('settings-item-update');
                     $('#edit-btn-undo').click();
                     driverObj.destroy();
+                    updateCheck();
                 }
             },
             EchoLiveTools.generateDriverSteps('settings_overview', 18, elementData, popoverData)
         )
     );
     driverObj.drive();
+}
+
+function updateCheck() {
+    updater.updateCheck(r => {
+        if (r.state !== 'success') return;
+        if (!r.data.hasNewReleases || !r.data.newReleasesNotChecked) return;
+        sysNotice.send(
+            $t('updater.notice_content_settings'),
+            $t('updater.notice_title', { version: r.data.newReleasesTag }),
+            'info',
+            { icon: 'material:update', waitTime: -1 },
+            (value, unit) => {
+                if (value !== null) new UpdateWindow(uniWindow);
+                unit.close();
+            }
+        )
+    });
 }

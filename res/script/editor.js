@@ -187,7 +187,64 @@ $(document).ready(function() {
             $('#ptext-btn-open-document-pip').prop('disabled', false);
         }
     });
+
+    loadEditorFormStorage();
 });
+
+window.addEventListener("beforeunload", () => {
+    localStorageManager.setItem('editor_form_storage', {
+        plan_text: {
+            character: $('#ptext-character').val(),
+            content: $('#ptext-content').val(),
+            use_formatting_code: $('#ptext-chk-use-formatting-code').val(),
+            startup_parameter: $('#ptext-chk-more').val(),
+            print_speed: $('#ptext-ipt-print-speed').val(),
+            quote: $('#ptext-chk-quote').val(),
+            quote_before: $('#ptext-ipt-quote-before').val(),
+            quote_after: $('#ptext-ipt-quote-after').val(),
+            split_message: $('#ptext-chk-split-message').val(),
+            sent_clear: $('#ptext-chk-sent-clear').val(),
+            sent_clear_content: $('#ptext-sent-clear-content').val()
+        }
+    });
+});
+
+function loadEditorFormStorage() {
+    const editorFormStorage = localStorageManager.getItem('editor_form_storage');
+    if (typeof editorFormStorage !== 'object') return;
+
+    const input = [
+        ['character',           'ptext-character'],
+        ['content',             'ptext-content'],
+        ['print_speed',         'ptext-ipt-print-speed'],
+        ['quote_before',        'ptext-ipt-quote-before'],
+        ['quote_after',         'ptext-ipt-quote-after'],
+        ['sent_clear_content',  'ptext-sent-clear-content']
+    ]
+    const checkbox = [
+        ['use_formatting_code', 'ptext-chk-use-formatting-code'],
+        ['startup_parameter',   'ptext-chk-more'],
+        ['quote',               'ptext-chk-quote'],
+        ['split_message',       'ptext-chk-split-message'],
+        ['sent_clear',          'ptext-chk-sent-clear']
+    ];
+
+    input.forEach(e => {
+        const value = editorFormStorage?.plan_text[e[0]];
+        if (value !== undefined) $('#' + e[1]).val(value);
+    });
+
+    checkbox.forEach(e => {
+        const value = editorFormStorage?.plan_text[e[0]];
+        if (value == 1) {
+            $('#' + e[1]).parents('.checkbox').eq(0).trigger('click');
+        }
+    });
+
+    if (editorFormStorage?.plan_text?.split_message == 1) {
+        $('#collapse-split-message').removeClass('hide');
+    }
+}
 
 
 let logMsgMark = 0;
@@ -580,9 +637,18 @@ $('#ptext-btn-send').click(function() {
         }
     );
 
-    if($('#ptext-chk-sent-clear').val() == 1) $('#ptext-content').val('');
-
-    $('#ptext-content').focus();
+    if($('#ptext-chk-sent-clear').val() == 1) {
+        $('#ptext-content').val('');
+        const template = String($('#ptext-sent-clear-content').val() || '');
+        const content = template.replace(/{{\|}}/g, '');
+        let cursor = template.search('{{|}}');
+        if (cursor < 0) cursor = content.length;
+        $('#ptext-content').val(content);
+        $('#ptext-content').focus();
+        $('#ptext-content').get(0).setSelectionRange(cursor, cursor);
+    } else {
+        $('#ptext-content').focus();
+    }
 
     echoLiveSystem.device.vibrateAuto('success');
 });
@@ -846,11 +912,40 @@ $(document).on('click', '#history-btn-clear', function() {
         history = [];
         historyMinimum = 0;
         $('#history-message-list').html('');
-        $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">${ $t('editor.history.clear') }</button>`);
+        $('#history-editor-controller').html(
+            FHUIComponentButton.button(
+                $t('editor.history.clear'),
+                {
+                    id: 'history-btn-clear',
+                    type: 'ghost',
+                    color: 'danger',
+                    size: 'big',
+                    icon: 'material:delete',
+                }
+            )
+        );
         $('#history-btn-clear').focus();
     } else {
         historyClearConfirm = true;
-        $('#history-editor-controller').html(`<button id="history-btn-clear-cancel" class="fh-button fh-big">${ $t('ui.cancel') }</button><button id="history-btn-clear" class="fh-button fh-big fh-danger">${ $t('editor.history.clear_confirm') }</button>`)
+        $('#history-editor-controller').html(
+            FHUIComponentButton.button(
+                $t('ui.cancel'),
+                {
+                    id: 'history-btn-clear-cancel',
+                    size: 'big',
+                    icon: 'material:close',
+                }
+            ) +
+            FHUIComponentButton.button(
+                $t('editor.history.clear_confirm'),
+                {
+                    id: 'history-btn-clear',
+                    color: 'danger',
+                    size: 'big',
+                    icon: 'material:check',
+                }
+            )
+        );
         $('#history-btn-clear-cancel').focus();
     }
 });
@@ -858,7 +953,18 @@ $(document).on('click', '#history-btn-clear', function() {
 // 历史页取消清空
 $(document).on('click', '#history-btn-clear-cancel', function() {
     historyClearConfirm = false;
-    $('#history-editor-controller').html(`<button id="history-btn-clear" class="fh-button fh-big fh-ghost fh-danger">${ $t('editor.history.clear') }</button>`);
+    $('#history-editor-controller').html(
+        FHUIComponentButton.button(
+            $t('editor.history.clear'),
+            {
+                id: 'history-btn-clear',
+                type: 'ghost',
+                color: 'danger',
+                size: 'big',
+                icon: 'material:delete',
+            }
+        )
+    );
     $('#history-btn-clear').focus();
 });
 
@@ -929,6 +1035,9 @@ $('#ptext-content').keydown(function(e) {
             if (!config.echolive.broadcast.enable) return;
             $('#ptext-btn-send').click();
             effectClick('#ptext-btn-send');
+            if ($('#workspace-editor-base').hasClass('webscreen')) {
+                $('.webscreen-message-sent-effect').addClass('show');
+            }
         } else if (config.accessibility.send_on_enter) {
             e.preventDefault();
             insertNewline(this);
@@ -991,6 +1100,10 @@ $('#ptext-btn-open-document-pip').click(async function() {
     pipWindow.addEventListener("unload", () => {
         $('#ptext-btn-open-document-pip').prop('disabled', false);
     });
+});
+
+$(document).on('animationend', '.webscreen-message-sent-effect', function() {
+    $(this).removeClass('show');
 });
 
 

@@ -620,8 +620,11 @@ async function BackendSaveConfigFile(content, fileName = 'config.json', url = 'h
     const data = {
         "name" : fileName,
         "root" : configfileroot,
-        "data" : JSON.parse(content) //别问为什么这么写，问就是后端的问题。
+        "data" : JSON.parse(content) //别问为什么这么写，问就是 let content = $('#edit-config-output').val();，但是后端希望是个对象
     }
+    sysNotice.sendT('notice.config_saving', {}, 'info', {
+        icon: 'material:timer-sand'
+    });
     $.ajax({
         type: "post",
         url: url,

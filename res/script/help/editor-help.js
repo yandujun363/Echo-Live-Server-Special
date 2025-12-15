@@ -12,6 +12,8 @@ const driver = window.driver.js.driver;
 const tutorialConfirmWindow = new TutorialConfirmWindow(uniWindow);
 
 let hasPrevClick = false;
+let updater = new Updater();
+updater.localStorageManager = localStorageManager;
 
 $(document).ready(function() {
     translator.ready(() => {
@@ -22,10 +24,15 @@ $(document).ready(function() {
                     break;
             
                 default:
-                    if (!localStorageManager.getTutorialFlag('editor_overview')) {
-                        tutorialConfirmWindow.create('editor_overview', driverShowOverview);
-                    }
                     break;
+            }
+        } else {
+            if (!localStorageManager.getTutorialFlag('editor_overview')) {
+                tutorialConfirmWindow.create('editor_overview', driverShowOverview, r => {
+                    if (r === 'no') updateCheck();
+                });
+            } else {
+                updateCheck();
             }
         }
     });
@@ -158,15 +165,39 @@ function driverShowOverview() {
             onNextClick: () => {
                 localStorageManager.setTutorialFlag('editor_overview');
                 driverObj.moveNext();
+                updateCheck();
             }
         }
     ];
 
     driverObj = driver(
         EchoLiveTools.generateDriverData(
-            {},
+            {
+                onDestroyStarted: () => {
+                    driverObj.destroy();
+                    updateCheck();
+                }
+            },
             EchoLiveTools.generateDriverSteps('editor_overview', 20, elementData, popoverData)
         )
     );
     driverObj.drive();
+}
+
+function updateCheck() {
+    updater.updateCheck(r => {
+        if (r.state !== 'success') return;
+        if (!r.data.hasNewReleases || !r.data.newReleasesNotChecked) return;
+        let inOBS = navigator.userAgent.toLowerCase().search(/ obs\//) !== -1;
+        sysNotice.send(
+            inOBS ? $t('updater.notice_content_editor') : $t('updater.notice_content_settings'),
+            $t('updater.notice_title', { version: r.data.newReleasesTag }),
+            'info',
+            { icon: 'material:update', waitTime: -1 },
+            inOBS ? undefined : (value, unit) => {
+                if (value !== null) new UpdateWindow(uniWindow);
+                unit.close();
+            }
+        )
+    });
 }
